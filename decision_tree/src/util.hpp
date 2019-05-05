@@ -55,6 +55,17 @@ namespace aym {
 		return (float)diginstr(s) / len;
 	}
 
+	bool contains(const std::vector<std::string>& patterns, const std::string& s) {
+
+		for (const auto& pattern : patterns) {
+
+			if (s.find(pattern) != std::string::npos)
+				return true;
+		}
+
+		return false;
+	}
+
 	bool containsUrl(const std::string& s) {
 
 		std::vector<std::string> toplevelDomains = { ".com", ".org", ".uk", ".net", ".ca", ".de", ".us", ".edu", ".ly", ".biz" };
@@ -67,17 +78,6 @@ namespace aym {
 		std::vector<std::string> currencies = { "$", "USD", "€", "EUR", "£", "GBP", "¥", "YEN", "HKD"};
 
 		return contains(currencies, s);
-	}
-
-	bool contains(const std::vector<std::string>& patterns, const std::string& s) {
-
-		for (const auto& pattern : patterns) {
-
-			if (s.find(pattern) != std::string::npos)
-				return true;
-		}
-
-		return false;
 	}
 }
 
