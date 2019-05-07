@@ -123,10 +123,10 @@ std::string SMSList::hamOrSpam() const
 
 	for (const auto& msg : messages) {
 
-		if (msg->getType() == "\"ham\"") {
+		if (msg->getType() == "ham") {
 			ham++;
 		}
-		else if (msg->getType() == "\"spam\"") {
+		else if (msg->getType() == "spam") {
 			spam++;
 		}
 	}

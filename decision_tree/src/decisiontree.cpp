@@ -8,13 +8,31 @@ node::node(const SMSList& messages)
 	loadFTable();
 }
 
+std::string decisiontree::node::classify(const PAnalyzedSMS msg)
+{
+	if (children.size() == 0) {
+		return label;
+	}
+
+	float avg = messages.getAverage(label);
+	
+	if (msg->getAnalyzedValue(label) <= avg) {
+
+		return children["below"]->classify(msg);
+	}
+	else {
+
+		return children["above"]->classify(msg);
+	}
+}
+
 void node::loadFTable()
 {
 	for (auto& sms : *messages.get()) {
 
 		for (const auto& classification : messages.getClassifications()) {
 
-			std::string type = sms->getType() == "\"spam\"" ? "yes" : "no";
+			std::string type = sms->getType() == "spam" ? "yes" : "no";
 			std::string specification = sms->getAnalyzedValue(classification) <= messages.getAverage(classification) ? "below" : "above";
 
 			ftable[classification][specification][type] += 1;
@@ -61,8 +79,8 @@ PNODE decisiontree::id3(SMSList& messages, PNODE root, const int depth)
 	PNODE belowAvgChild = std::make_shared<node>(splittedBelow);
 	PNODE aboveAvgChild = std::make_shared<node>(splittedAbove);
 
-	root->children.emplace_back(id3(splittedBelow, belowAvgChild, depth + 1));
-	root->children.emplace_back(id3(splittedAbove, aboveAvgChild, depth + 1));
+	root->children.emplace("below", id3(splittedBelow, belowAvgChild, depth + 1));
+	root->children.emplace("above", id3(splittedAbove, aboveAvgChild, depth + 1));
 
 	//for (const auto& [k, v] : root->ftable[label]) {
 	//	

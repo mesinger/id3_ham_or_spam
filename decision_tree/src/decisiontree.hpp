@@ -21,6 +21,8 @@ namespace decisiontree {
 
 		node(const SMSList& messages);
 
+		std::string classify(const PAnalyzedSMS msg);
+
 	protected:
 
 		SMSList messages;
@@ -28,7 +30,7 @@ namespace decisiontree {
 
 		std::string label;
 
-		std::vector<PNODE> children;
+		std::map<std::string, PNODE> children;
 
 	private:
 

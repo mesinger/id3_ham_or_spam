@@ -44,5 +44,11 @@
     <ClInclude Include="src\decisiontree.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\kcrossvalidation.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\statistics.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

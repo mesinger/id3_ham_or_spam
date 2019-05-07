@@ -160,8 +160,10 @@
   <ItemGroup>
     <ClInclude Include="src\decisiontree.hpp" />
     <ClInclude Include="src\frequencytable.hpp" />
+    <ClInclude Include="src\kcrossvalidation.hpp" />
     <ClInclude Include="src\rapidcsv.h" />
     <ClInclude Include="src\sms.hpp" />
+    <ClInclude Include="src\statistics.hpp" />
     <ClInclude Include="src\util.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
