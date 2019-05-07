@@ -152,11 +152,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\decisiontree.cpp" />
     <ClCompile Include="src\frequencytable.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\sms.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\decisiontree.hpp" />
     <ClInclude Include="src\frequencytable.hpp" />
     <ClInclude Include="src\rapidcsv.h" />
     <ClInclude Include="src\sms.hpp" />

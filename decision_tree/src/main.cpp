@@ -4,6 +4,7 @@
 #include "sms.hpp"
 #include "frequencytable.hpp"
 #include <map>
+#include "decisiontree.hpp"
 
 int main(int argc, char** argv) {
 
@@ -11,42 +12,25 @@ int main(int argc, char** argv) {
 
 	rapidcsv::Document file(argv[1]);
 
-	std::vector<AnalyzedSMS> messages;
+	std::vector<PAnalyzedSMS> messages;
 
 	for (const auto& line : file.getData()) {
 
-		messages.emplace_back(line[0], line[1]);
+		messages.emplace_back(std::make_shared<AnalyzedSMS>(line[0], line[1]));
 	}
 
 	for (auto& sms : messages) {
 
-		sms.setAnalyzedValue("upper", aym::rateOfUpperCase(sms.getMessage()));
-		sms.setAnalyzedValue("digit", aym::rateOfDigits(sms.getMessage()));
-		sms.setAnalyzedValue("url", aym::containsUrl(sms.getMessage()) ? 1.f : 0.f);
-		sms.setAnalyzedValue("currency", aym::containsCurrencySymbol(sms.getMessage()) ? 1.f : 0.f);
-		sms.setAnalyzedValue("free", aym::contains({"free", "Free", "FREE"}, sms.getMessage()) ? 1.f : 0.f);
+		sms->setAnalyzedValue("upper", aym::rateOfUpperCase(sms->getMessage()));
+		sms->setAnalyzedValue("digit", aym::rateOfDigits(sms->getMessage()));
+		sms->setAnalyzedValue("url", aym::containsUrl(sms->getMessage()) ? 1.f : 0.f);
+		sms->setAnalyzedValue("currency", aym::containsCurrencySymbol(sms->getMessage()) ? 1.f : 0.f);
+		sms->setAnalyzedValue("free", aym::contains({"free", "Free", "FREE"}, sms->getMessage()) ? 1.f : 0.f);
 	}
 
-	SMSList list = messages;
+	SMSList list(messages, { "upper", "digit", "url", "currency", "free" });
 
-	std::vector<std::string> classifications = { "upper", "digit", "url", "currency", "free" };
-
-	std::map<std::string, FrequencyTable> ftables;
-	
-	for (const auto& classification : classifications) {
-		ftables[classification] = FrequencyTable(classification);
-	}
-
-	std::map<std::string, float> averages;
-
-	for (const auto& classification : classifications) {
-		averages[classification] = list.avgOf(classification);
-	}
-
-	for (const auto& classification : classifications) {
-		
-		
-	}
+	auto tree = decisiontree::id3(list);
 
 	return EXIT_SUCCESS;
 }
