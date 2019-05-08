@@ -34,7 +34,7 @@ int main(int argc, char** argv) {
 	std::vector<PAnalyzedSMS> test;
 
 	kcrossfold<PAnalyzedSMS> kcrossy;
-	kcrossy.split(5, 1, messages, training, test);
+	kcrossy.split(23, 1, messages, test, training);
 
 	SMSList trainingList(training, { "upper", "digit", "url", "currency", "free" });
 
@@ -57,7 +57,7 @@ int main(int argc, char** argv) {
 
 	statistics::printConfusionMatrix(matrix);
 
-	std::cout << "Accuracy = " << statistics::getAcc(metrices) << "%" << std::endl;
+	std::cout << "Accuracy = " << statistics::getAcc(metrices) * 100 << "%" << std::endl;
 
 	return EXIT_SUCCESS;
 }
